@@ -1,20 +1,11 @@
 {
-  "name": "webm-to-mp4",
+  "name": "webm-to-mp4-converter",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ecommingle/webm-to-mp4.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/ecommingle/webm-to-mp4/issues"
-  },
-  "homepage": "https://github.com/ecommingle/webm-to-mp4#readme"
+  "dependencies": {
+    "express": "^4.18.2"
+  }
 }
