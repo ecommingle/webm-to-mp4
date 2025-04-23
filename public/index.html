@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebM to MP4 Converter</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+    }
+    input[type="file"] {
+      margin: 1rem 0;
+    }
+    button {
+      padding: 0.6rem 1.2rem;
+      background-color: #007bff;
+      border: none;
+      color: white;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .output {
+      margin-top: 1rem;
+    }
+    .output a {
+      display: block;
+      color: #28a745;
+      margin: 0.3rem 0;
+      word-break: break-all;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Convert WebM to MP4</h2>
+    <form id="upload-form">
+      <input type="file" name="file" required />
+      <input type="hidden" name="convert_to" value="mp4" />
+      <button type="submit">Convert</button>
+    </form>
+    <div class="output" id="output"></div>
+  </div>
+
+  <script>
+    const form = document.getElementById('upload-form');
+    const output = document.getElementById('output');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      output.innerHTML = 'Uploading and converting...';
+
+      const formData = new FormData(form);
+
+      try {
+        const response = await fetch('/convert', {
+          method: 'POST',
+          body: formData
+        });
+
+        const result = await response.json();
+
+        if (result.files && result.files.length) {
+          output.innerHTML = '<h4>Download Files:</h4>';
+          result.files.forEach(url => {
+            const link = document.createElement('a');
+            link.href = url;
+            link.textContent = url;
+            link.target = '_blank';
+            output.appendChild(link);
+          });
+        } else {
+          output.innerHTML = 'Conversion failed or no files returned.';
+        }
+      } catch (err) {
+        output.innerHTML = 'Error during conversion: ' + err.message;
+      }
+    });
+  </script>
+</body>
+</html>
